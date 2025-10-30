@@ -9,12 +9,12 @@ namespace PragueParking.Core.VehicleTypes
 {
     public class BananaBoat : Vehicle
     {
+        // Banana boat is not an allowed vehicle,
+        // so this class can basically be empty.
         public BananaBoat(string regNumber) : base(regNumber)
         {
             
         }
 
-        // No override methods: Banana boat is not an allowed vehicle,
-        // so this class can be left empty - for noow.
     }
 }

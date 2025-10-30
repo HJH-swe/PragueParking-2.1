@@ -34,7 +34,7 @@ namespace PragueParking.Core.VehicleTypes
 
 // NOTE You should be able to change the configuration data while the programming is running
 // - a menu option to reload the configfile -
-// although perhaps you shouldn't be able to change certain things when you have cars parked
+// although perhaps you shouldn't be able to change certain things when you have vehicles parked
 // So maybe add a warning "All your saved data will disappear now"
 // and ask if you want to continue --> otherwise exit to main menu
 

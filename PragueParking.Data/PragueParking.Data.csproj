@@ -7,8 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Spectre.Console" Version="0.53.0" />
-    <PackageReference Include="Spectre.Console.Json" Version="0.53.0" />
+    <ProjectReference Include="..\PragueParking.Core\PragueParking.Core.csproj" />
   </ItemGroup>
 
 </Project>

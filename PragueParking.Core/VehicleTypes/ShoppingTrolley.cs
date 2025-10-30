@@ -8,12 +8,11 @@ namespace PragueParking.Core.VehicleTypes
 {
     public class ShoppingTrolley : Vehicle
     {
+        // Shopping trolley is not an allowed vehicle,
+        // so this class can basically be empty.
         public ShoppingTrolley(string regNumber) : base(regNumber)
         {
 
         }
-
-        // No override methods: Shopping trolley is not an allowed vehicle,
-        // so this class can be left empty - for now.
     }
 }

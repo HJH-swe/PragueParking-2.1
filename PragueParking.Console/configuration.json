@@ -1,0 +1,9 @@
+{
+  "GarageSize": 100,
+  "AllowedVehicles": [ "MC", "CAR", "BUS", "BICYCLE" ],
+  "MCVehicleSize": 2,
+  "CarVehicleSize": 4,
+  "BusVehicleSize": 16,
+  "BicycleVehicleSize": 1,
+  "ParkingSpaceSize": 4
+}

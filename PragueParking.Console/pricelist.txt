@@ -1,0 +1,11 @@
+﻿# Price list - prices for different vehicle types
+# To change the price: Change the number after the equal sign
+# To reload the prices in the application: Choose menu option "Reload Price List"
+# Price for cars (CZK)
+CAR.price=20
+# Price for motorbikes (CZK)
+MC.price=10
+# Price for buses (CZK)
+BUS.price=80
+# Prices for bicycles (CZK)
+BICYCLE.price=5
