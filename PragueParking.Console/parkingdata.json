@@ -9,7 +9,7 @@
         "VehicleSize": 16,
         "ArrivalTime": "2025-10-31T16:01:02.5056723+01:00",
         "DepartureTime": "0001-01-01T00:00:00",
-        "PricePerHour": 80,
+        "PricePerHour": 300,
         "SpacesUsing": []
       }
     ]
@@ -24,7 +24,7 @@
         "VehicleSize": 16,
         "ArrivalTime": "2025-10-31T16:01:02.5056723+01:00",
         "DepartureTime": "0001-01-01T00:00:00",
-        "PricePerHour": 80,
+        "PricePerHour": 300,
         "SpacesUsing": []
       }
     ]
@@ -39,7 +39,7 @@
         "VehicleSize": 16,
         "ArrivalTime": "2025-10-31T16:01:02.5056723+01:00",
         "DepartureTime": "0001-01-01T00:00:00",
-        "PricePerHour": 80,
+        "PricePerHour": 300,
         "SpacesUsing": []
       }
     ]
@@ -54,7 +54,7 @@
         "VehicleSize": 16,
         "ArrivalTime": "2025-10-31T16:01:02.5056723+01:00",
         "DepartureTime": "0001-01-01T00:00:00",
-        "PricePerHour": 80,
+        "PricePerHour": 300,
         "SpacesUsing": []
       }
     ]
@@ -69,7 +69,7 @@
         "VehicleSize": 16,
         "ArrivalTime": "2025-10-31T17:53:16.164168+01:00",
         "DepartureTime": "0001-01-01T00:00:00",
-        "PricePerHour": 80,
+        "PricePerHour": 300,
         "SpacesUsing": []
       }
     ]
@@ -84,7 +84,7 @@
         "VehicleSize": 16,
         "ArrivalTime": "2025-10-31T17:53:16.164168+01:00",
         "DepartureTime": "0001-01-01T00:00:00",
-        "PricePerHour": 80,
+        "PricePerHour": 300,
         "SpacesUsing": []
       }
     ]
@@ -99,7 +99,7 @@
         "VehicleSize": 16,
         "ArrivalTime": "2025-10-31T17:53:16.164168+01:00",
         "DepartureTime": "0001-01-01T00:00:00",
-        "PricePerHour": 80,
+        "PricePerHour": 300,
         "SpacesUsing": []
       }
     ]
@@ -114,7 +114,7 @@
         "VehicleSize": 16,
         "ArrivalTime": "2025-10-31T17:53:16.164168+01:00",
         "DepartureTime": "0001-01-01T00:00:00",
-        "PricePerHour": 80,
+        "PricePerHour": 300,
         "SpacesUsing": []
       }
     ]
@@ -362,17 +362,8 @@
   {
     "TotalSize": 4,
     "SpaceNumber": 49,
-    "AvailableSize": 0,
-    "ParkedVehicles": [
-      {
-        "RegNumber": "AAA111",
-        "VehicleSize": 4,
-        "ArrivalTime": "2025-10-31T15:59:57.6402694+01:00",
-        "DepartureTime": "0001-01-01T00:00:00",
-        "PricePerHour": 20,
-        "SpacesUsing": []
-      }
-    ]
+    "AvailableSize": 4,
+    "ParkedVehicles": []
   },
   {
     "TotalSize": 4,
@@ -384,7 +375,7 @@
         "VehicleSize": 2,
         "ArrivalTime": "2025-10-31T16:00:06.2026438+01:00",
         "DepartureTime": "0001-01-01T00:00:00",
-        "PricePerHour": 10,
+        "PricePerHour": 200,
         "SpacesUsing": []
       },
       {
@@ -392,7 +383,7 @@
         "VehicleSize": 2,
         "ArrivalTime": "2025-10-31T16:00:14.7083977+01:00",
         "DepartureTime": "0001-01-01T00:00:00",
-        "PricePerHour": 10,
+        "PricePerHour": 200,
         "SpacesUsing": []
       }
     ]
@@ -407,7 +398,7 @@
         "VehicleSize": 1,
         "ArrivalTime": "2025-10-31T16:00:24.5402911+01:00",
         "DepartureTime": "0001-01-01T00:00:00",
-        "PricePerHour": 5,
+        "PricePerHour": 400,
         "SpacesUsing": []
       },
       {
@@ -415,7 +406,7 @@
         "VehicleSize": 1,
         "ArrivalTime": "2025-10-31T16:00:35.9303276+01:00",
         "DepartureTime": "0001-01-01T00:00:00",
-        "PricePerHour": 5,
+        "PricePerHour": 400,
         "SpacesUsing": []
       },
       {
@@ -423,7 +414,7 @@
         "VehicleSize": 1,
         "ArrivalTime": "2025-10-31T16:04:25.3180257+01:00",
         "DepartureTime": "0001-01-01T00:00:00",
-        "PricePerHour": 5,
+        "PricePerHour": 400,
         "SpacesUsing": []
       }
     ]
@@ -438,7 +429,7 @@
         "VehicleSize": 2,
         "ArrivalTime": "2025-10-31T16:01:36.8455405+01:00",
         "DepartureTime": "0001-01-01T00:00:00",
-        "PricePerHour": 10,
+        "PricePerHour": 200,
         "SpacesUsing": []
       }
     ]
@@ -453,7 +444,7 @@
         "VehicleSize": 4,
         "ArrivalTime": "2025-10-31T16:01:47.6974481+01:00",
         "DepartureTime": "0001-01-01T00:00:00",
-        "PricePerHour": 20,
+        "PricePerHour": 100,
         "SpacesUsing": []
       }
     ]
@@ -504,7 +495,7 @@
         "VehicleSize": 1,
         "ArrivalTime": "2025-10-31T16:05:40.5042801+01:00",
         "DepartureTime": "0001-01-01T00:00:00",
-        "PricePerHour": 5,
+        "PricePerHour": 400,
         "SpacesUsing": []
       }
     ]

@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using Spectre.Console;
-using PragueParking.Core;
-using PragueParking.Data;
-using System.Collections.Specialized;
-using PragueParking.Core.VehicleTypes;
+﻿using PragueParking.Core;
 using PragueParking.Core.Interfaces;
+using PragueParking.Core.VehicleTypes;
+using PragueParking.Data;
+using Spectre.Console;
+using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Diagnostics.Metrics;
 
 namespace PragueParking.Console
 {
@@ -27,7 +28,7 @@ namespace PragueParking.Console
                 "[springgreen1]Search for Vehicle[/]\n",
                 "[springgreen1]Move Vehicle[/]\n",
                 "[springgreen1]Parking Overview[/]\n",
-                "[springgreen1]Reload Price List[/]\n",
+                "[springgreen1]Configure Parking Garage or Price List[/]\n",
                 "[springgreen1]Close Prague Parking[/]\n"
             };
 
@@ -261,34 +262,33 @@ namespace PragueParking.Console
                         }
                         break;
                     }
-                case "Reload Price List":
+                case "Configure Parking Garage or Price List":
                     {
-                        WritePanel("RELOAD PRICE LIST", "#ff00ff", "#5fffd7");
-                        List<string> updateOptions = new List<string>
+                        WritePanel("CONFIGURE GARAGE OR PRICE LIST", "#ff00ff", "#5fffd7");
+                        List<string> configureOptions = new List<string>
                         {
-                            "[#ff00ff]YES[/]",
-                            "[#ff00ff]NO[/]\n\n",
+                            "[#ff00ff]PARKING GARAGE[/]",
+                            "[#ff00ff]PRICE LIST[/]\n\n",
                             "[#ff00ff]Exit to Main Menu[/]"
                         };
                         string updateSelect = AnsiConsole.Prompt(new SelectionPrompt<string>()
-                             .Title("[#ff00ff]\n\nDo you want to update prices of parked vehicles?[/]")
-                             .AddChoices(updateOptions)
+                             .Title("[#ff00ff]\n\nSelect to configure the parking garage or price list:\n[/]")
+                             .AddChoices(configureOptions)
                         );
                         string cleanUpdateSelect = Markup.Remove(updateSelect).Trim();
-                        if (cleanUpdateSelect == "YES")
+                        if (cleanUpdateSelect == "PARKING GARAGE")
                         {
                             // Update pricelist here, in case user selects "Exit to Main Menu"
-                            priceList = LoadPriceList(fileManager);
-                            garage.UpdateAllVehiclePrices(priceList);
-                            AnsiConsole.Write(new Markup($"\n\nPrices for all parked vehicles have been updated.", Color.Aquamarine1));
-                            // Re-save parked vehicles with new prices
-                            fileManager.SaveParkingData(garage.GetAllSpaces(), "../../../parkingdata.json");
+                            //priceList = LoadPriceList(fileManager);
+                            //garage.UpdateAllVehiclePrices(priceList);
+                            //AnsiConsole.Write(new Markup($"\n\nPrices for all parked vehicles have been updated.", Color.Aquamarine1));
+                            //// Re-save parked vehicles with new prices
+                            //fileManager.SaveParkingData(garage.GetAllSpaces(), "../../../parkingdata.json");
                         }
-                        else if (cleanUpdateSelect == "NO")
+                        else if (cleanUpdateSelect == "PRICE LIST")
                         {
-                            // Update pricelist here, in case user selects "Exit to Main Menu"
-                            priceList = LoadPriceList(fileManager);
-                            AnsiConsole.Write(new Markup($"\n\nNew prices will apply to new parked vehicles.", Color.Aquamarine1));
+                            priceList = UpdatePriceList(fileManager, priceList);
+                            ApplyNewPrices(garage, priceList);
                         }
                         // No "else" needed. If user selects "Exit to Main Menu" --> break and return to Main Menu
                         break;
@@ -483,6 +483,73 @@ namespace PragueParking.Console
                 priceConfig.PriceList.BusVehiclePrice, priceConfig.PriceList.BicycleVehiclePrice);
 
             return priceList;
+        }
+        public static (ParkingGarage garage, PriceList priceList) ReInitializeGarage()
+        {
+            return (null, null);
+        }
+        public static PriceList ReloadPriceList(FileManager fileManager, string filePath)
+        {
+            PriceListConfiguration priceConfig = fileManager.ConfigurePriceList(filePath);
+            if (priceConfig == null)
+            {
+                WritePanel("ERROR! Could not reload price list!", "#ff0000", "#800000");
+                return null;
+            }
+
+            PriceList priceList = new PriceList(priceConfig.PriceList.MCVehiclePrice, priceConfig.PriceList.CarVehiclePrice,
+                priceConfig.PriceList.BusVehiclePrice, priceConfig.PriceList.BicycleVehiclePrice);
+
+            return priceList;
+        }
+        public static PriceList? UpdatePriceList(FileManager fileManager, PriceList priceList)
+        {
+            // Get new prices from user input
+            string carPrice = AnsiConsole.Prompt(new TextPrompt<string>("[#ff00ff]\nEnter new price for cars:[/]"));
+            string mcPrice = AnsiConsole.Prompt(new TextPrompt<string>("[#ff00ff]\nEnter new price for motorbikes:[/]"));
+            string busPrice = AnsiConsole.Prompt(new TextPrompt<string>("[#ff00ff]\nEnter new price for buses:[/]"));
+            string bicyclePrice = AnsiConsole.Prompt(new TextPrompt<string>("[#ff00ff]\nEnter new price for bicycles:[/]"));
+
+            string updatedPriceList = "# Price list - prices for different vehicle types\r\n" +
+                "# To change the price: Change the number after the equal sign\r\n" +
+                "# To reload the prices in the application: Choose menu option \"Configure Parking Garage or Price List\"\r\n" +
+                $"# Price for cars (CZK)\r\nCAR.price={carPrice}\r\n" +
+                $"# Price for motorbikes (CZK)\r\nMC.price={mcPrice}\r\n" +
+                $"# Price for buses (CZK)\r\nBUS.price={busPrice}\r\n" +
+                $"# Prices for bicycles (CZK)\r\nBICYCLE.price={bicyclePrice}";
+
+            string filePath = "../../../pricelist.txt";
+            using (StreamWriter sw = new StreamWriter(filePath))
+            {
+                sw.WriteLine(updatedPriceList);
+            }
+
+            return priceList = ReloadPriceList(fileManager, filePath);
+        }
+        public static void ApplyNewPrices(ParkingGarage garage, PriceList priceList)
+        {
+            List<string> updateOptions = new List<string>
+                        {
+                            "[#ff00ff]YES[/]",
+                            "[#ff00ff]NO[/]\n\n"
+                        };
+            string updateSelect = AnsiConsole.Prompt(new SelectionPrompt<string>()
+                 .Title("[#ff00ff]\n\nDo you want to update the prices of parked vehicles?[/]")
+                 .AddChoices(updateOptions)
+            );
+            string cleanUpdateSelect = Markup.Remove(updateSelect).Trim();
+            if (cleanUpdateSelect == "YES")
+            {
+                garage.UpdateAllVehiclePrices(priceList);
+                AnsiConsole.Write(new Markup($"\n\nPrices for all parked vehicles have been updated.", Color.Aquamarine1));
+                // Re-save parked vehicles with new prices
+                FileManager fileManager = new FileManager();
+                fileManager.SaveParkingData(garage.GetAllSpaces(), "../../../parkingdata.json");
+            }
+            else if (cleanUpdateSelect == "NO")
+            {
+                AnsiConsole.Write(new Markup($"\n\nNew prices will apply to new parked vehicles.", Color.Aquamarine1));
+            }
         }
         private static void WritePanel(string panelText, string textColor, string borderColor)
         {

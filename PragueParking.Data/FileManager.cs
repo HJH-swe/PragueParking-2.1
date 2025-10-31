@@ -103,5 +103,6 @@ namespace PragueParking.Data
                 return priceConfiguration;
             }
         }
+
     }
 }
