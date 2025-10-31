@@ -59,13 +59,13 @@ namespace PragueParking.Core
                 for (int i = 0; i < 48; i++)
                 {
                     // Several nested if-statements to find 4 spaces next to each other
-                    if (parkingSpaces[i].AvailableSize == 4)
+                    if (parkingSpaces[i].AvailableSize == ParkingSpaceSize)
                     {
-                        if (parkingSpaces[i+1].AvailableSize == 4)
+                        if (parkingSpaces[i + 1].AvailableSize == ParkingSpaceSize)
                         {
-                            if (parkingSpaces[i+2].AvailableSize == 4)
+                            if (parkingSpaces[i + 2].AvailableSize == ParkingSpaceSize)
                             {
-                                if (parkingSpaces[i+3].AvailableSize == 4)
+                                if (parkingSpaces[i + 3].AvailableSize == ParkingSpaceSize)
                                 {
                                     return i;   // First of the 4 free spaces
                                 }
@@ -76,9 +76,16 @@ namespace PragueParking.Core
             }
             else if (vehicle is Car)
             {
+                for (int i = 48; i < parkingSpaces.Count; i++)      // Start from 48 first (space 49) to "save" spaces for busses
+                {
+                    if (parkingSpaces[i].AvailableSize == vehicle.VehicleSize)
+                    {
+                        return i;
+                    }
+                }
                 for (int i = 0; i < parkingSpaces.Count; i++)
                 {
-                    if (parkingSpaces[i].AvailableSize == 4)
+                    if (parkingSpaces[i].AvailableSize == vehicle.VehicleSize)
                     {
                         return i;
                     }
@@ -86,18 +93,34 @@ namespace PragueParking.Core
             }
             else if (vehicle is MC)
             {
+                // Start from 48 to "save" spaces for busses
                 // Optimize parking - first check to fill 1 space with 2 MC
-                for (int i = 1; i < parkingSpaces.Count; i++)               //TODO: Change i = 0?
+                for (int i = 48; i < parkingSpaces.Count; i++)
                 {
-                    if (parkingSpaces[i].AvailableSize == 2)
+                    if (parkingSpaces[i].AvailableSize == vehicle.VehicleSize)
                     {
                         return i;
                     }
                 }
                 // If no space next to MC, look for any space
-                for (int i = 1; i < parkingSpaces.Count; i++)
+                for (int i = 48; i < parkingSpaces.Count; i++)
                 {
-                    if (parkingSpaces[i].AvailableSize > 2)
+                    if (parkingSpaces[i].AvailableSize > vehicle.VehicleSize)
+                    {
+                        return i;
+                    }
+                }
+                // Same - but from parking space 1
+                for (int i = 0; i < parkingSpaces.Count; i++)
+                {
+                    if (parkingSpaces[i].AvailableSize == vehicle.VehicleSize)
+                    {
+                        return i;
+                    }
+                }
+                for (int i = 0; i < parkingSpaces.Count; i++)
+                {
+                    if (parkingSpaces[i].AvailableSize > vehicle.VehicleSize)
                     {
                         return i;
                     }
@@ -105,12 +128,44 @@ namespace PragueParking.Core
             }
             else if (vehicle is Bicycle)
             {
-                for (int i = 0; i < parkingSpaces.Count; i++)
+                // Optimize parking, look for spaces with 1 or 3 bicycles (if 2 bicycles a motorbike also would fit)
+                for (int i = 48; i < parkingSpaces.Count; i++)
                 {
-                    if (parkingSpaces[i].AvailableSize == 4)
+                    if (parkingSpaces[i].AvailableSize == vehicle.VehicleSize)
                     {
                         return i;
                     }
+                    if (parkingSpaces[i].AvailableSize == (ParkingSpaceSize - vehicle.VehicleSize))
+                    {
+                        return i;
+                    }
+                }
+            }
+            // If no space with other bicycles, look for any space
+            for (int i = 48; i < parkingSpaces.Count; i++)
+            {
+                if (parkingSpaces[i].AvailableSize > vehicle.VehicleSize)
+                {
+                    return i;
+                }
+            }
+            // Same, but from first parking space
+            for (int i = 0; i < parkingSpaces.Count; i++)
+            {
+                if (parkingSpaces[i].AvailableSize == vehicle.VehicleSize)
+                {
+                    return i;
+                }
+                if (parkingSpaces[i].AvailableSize == (ParkingSpaceSize - vehicle.VehicleSize))
+                {
+                    return i;
+                }
+            }
+            for (int i = 0; i < parkingSpaces.Count; i++)
+            {
+                if (parkingSpaces[i].AvailableSize > vehicle.VehicleSize)
+                {
+                    return i;
                 }
             }
             // Return -1 if no free spaces, garage is full 
@@ -125,24 +180,22 @@ namespace PragueParking.Core
             }
             else
             {
-                if (vehicle is Bus)
+                if (vehicle is Bus bus)
                 {
-                    List<IParkingSpace> busSpaces = new List<IParkingSpace> { 
-                        parkingSpaces[freeSpace], 
-                        parkingSpaces[freeSpace + 1], 
-                        parkingSpaces[freeSpace + 2], 
-                        parkingSpaces[freeSpace + 3]};
-
+                    bus.SpacesUsing.Add(parkingSpaces[freeSpace]);
+                    bus.SpacesUsing.Add(parkingSpaces[freeSpace + 1]);
+                    bus.SpacesUsing.Add(parkingSpaces[freeSpace + 2]);
+                    bus.SpacesUsing.Add(parkingSpaces[freeSpace + 3]);
 
                     // Buses are parked in 4 steps (for 4 spaces) --> need to know if all 4 steps were successfull
                     // Use bools - if AddVehicle fails at any point, the whole bus isn't parked 
                     Vehicle concreteBus = (Vehicle)vehicle;
                     bool allBusParked = true;
-                    foreach (IParkingSpace space in busSpaces)
+                    foreach (IParkingSpace space in bus.SpacesUsing)
                     {
                         bool success = space.AddVehicle(concreteBus);
-                        if (!success) 
-                        { 
+                        if (!success)
+                        {
                             allBusParked = false;
                             break;
                         }
@@ -153,13 +206,54 @@ namespace PragueParking.Core
                 {
                     var spaceToUse = parkingSpaces[freeSpace];
                     Vehicle concreteVehicle = (Vehicle)vehicle;
-                    return spaceToUse.AddVehicle(concreteVehicle); 
+                    return spaceToUse.AddVehicle(concreteVehicle);
                 }
             }
         }
+        public bool MoveBus(IParkable vehicle, int spaceNumber)
+        {
+            try
+            {
+                int spaceIndex = spaceNumber - 1;
+                // Need to check if there's space to move bus to - check 4 spaces 
+                for (int i = 0; i < 4; i++)
+                {
+                    if (parkingSpaces[spaceIndex + i].ParkedVehicles.Count > 0)
+                    {
+                        return false;
+                    }
+                }
+                Vehicle bus = (Vehicle)vehicle;
+                parkingSpaces[spaceIndex].ParkedVehicles.Add(bus);
+                parkingSpaces[spaceIndex].AvailableSize -= (vehicle.VehicleSize / 4);
+                parkingSpaces[spaceIndex + 1].ParkedVehicles.Add(bus);
+                parkingSpaces[spaceIndex + 1].AvailableSize -= (vehicle.VehicleSize / 4);
+                parkingSpaces[spaceIndex + 2].ParkedVehicles.Add(bus);
+                parkingSpaces[spaceIndex + 2].AvailableSize -= (vehicle.VehicleSize / 4);
+                parkingSpaces[spaceIndex + 3].ParkedVehicles.Add(bus);
+                parkingSpaces[spaceIndex + 3].AvailableSize -= (vehicle.VehicleSize / 4);
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+        public void RemoveBus(IParkable vehicle, IParkingSpace space)
+        {
+            int spaceIndex = space.SpaceNumber - 1;
+            parkingSpaces[spaceIndex].ParkedVehicles = new List<Vehicle>();
+            parkingSpaces[spaceIndex].AvailableSize += (vehicle.VehicleSize / 4);
+            parkingSpaces[spaceIndex + 1].ParkedVehicles = new List<Vehicle>();
+            parkingSpaces[spaceIndex + 1].AvailableSize += (vehicle.VehicleSize / 4);
+            parkingSpaces[spaceIndex + 2].ParkedVehicles = new List<Vehicle>();
+            parkingSpaces[spaceIndex + 2].AvailableSize += (vehicle.VehicleSize / 4);
+            parkingSpaces[spaceIndex + 3].ParkedVehicles = new List<Vehicle>();
+            parkingSpaces[spaceIndex + 3].AvailableSize += (vehicle.VehicleSize / 4);
+        }
         public IParkingSpace FindVehicleSpace(string regNumber)
         {
-            int spaceCounter = 0;
             foreach (var parkingSpace in parkingSpaces)
             {
                 foreach (var vehicle in parkingSpace.ParkedVehicles)
@@ -169,7 +263,6 @@ namespace PragueParking.Core
                         return parkingSpace;
                     }
                 }
-                spaceCounter++;
             }
             return null;
         }

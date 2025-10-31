@@ -5,11 +5,12 @@
     "AvailableSize": 0,
     "ParkedVehicles": [
       {
-        "RegNumber": "BUS111",
+        "RegNumber": "FFF666",
         "VehicleSize": 16,
-        "ArrivalTime": "2025-10-31T12:01:53.9311063+01:00",
+        "ArrivalTime": "2025-10-31T16:01:02.5056723+01:00",
         "DepartureTime": "0001-01-01T00:00:00",
-        "PricePerHour": 80
+        "PricePerHour": 80,
+        "SpacesUsing": []
       }
     ]
   },
@@ -19,11 +20,12 @@
     "AvailableSize": 0,
     "ParkedVehicles": [
       {
-        "RegNumber": "BUS111",
+        "RegNumber": "FFF666",
         "VehicleSize": 16,
-        "ArrivalTime": "2025-10-31T12:01:53.9311063+01:00",
+        "ArrivalTime": "2025-10-31T16:01:02.5056723+01:00",
         "DepartureTime": "0001-01-01T00:00:00",
-        "PricePerHour": 80
+        "PricePerHour": 80,
+        "SpacesUsing": []
       }
     ]
   },
@@ -33,11 +35,12 @@
     "AvailableSize": 0,
     "ParkedVehicles": [
       {
-        "RegNumber": "BUS111",
+        "RegNumber": "FFF666",
         "VehicleSize": 16,
-        "ArrivalTime": "2025-10-31T12:01:53.9311063+01:00",
+        "ArrivalTime": "2025-10-31T16:01:02.5056723+01:00",
         "DepartureTime": "0001-01-01T00:00:00",
-        "PricePerHour": 80
+        "PricePerHour": 80,
+        "SpacesUsing": []
       }
     ]
   },
@@ -47,37 +50,74 @@
     "AvailableSize": 0,
     "ParkedVehicles": [
       {
-        "RegNumber": "BUS111",
+        "RegNumber": "FFF666",
         "VehicleSize": 16,
-        "ArrivalTime": "2025-10-31T12:01:53.9311063+01:00",
+        "ArrivalTime": "2025-10-31T16:01:02.5056723+01:00",
         "DepartureTime": "0001-01-01T00:00:00",
-        "PricePerHour": 80
+        "PricePerHour": 80,
+        "SpacesUsing": []
       }
     ]
   },
   {
     "TotalSize": 4,
     "SpaceNumber": 5,
-    "AvailableSize": 4,
-    "ParkedVehicles": []
+    "AvailableSize": 0,
+    "ParkedVehicles": [
+      {
+        "RegNumber": "LLL222",
+        "VehicleSize": 16,
+        "ArrivalTime": "2025-10-31T17:53:16.164168+01:00",
+        "DepartureTime": "0001-01-01T00:00:00",
+        "PricePerHour": 80,
+        "SpacesUsing": []
+      }
+    ]
   },
   {
     "TotalSize": 4,
     "SpaceNumber": 6,
-    "AvailableSize": 4,
-    "ParkedVehicles": []
+    "AvailableSize": 0,
+    "ParkedVehicles": [
+      {
+        "RegNumber": "LLL222",
+        "VehicleSize": 16,
+        "ArrivalTime": "2025-10-31T17:53:16.164168+01:00",
+        "DepartureTime": "0001-01-01T00:00:00",
+        "PricePerHour": 80,
+        "SpacesUsing": []
+      }
+    ]
   },
   {
     "TotalSize": 4,
     "SpaceNumber": 7,
-    "AvailableSize": 4,
-    "ParkedVehicles": []
+    "AvailableSize": 0,
+    "ParkedVehicles": [
+      {
+        "RegNumber": "LLL222",
+        "VehicleSize": 16,
+        "ArrivalTime": "2025-10-31T17:53:16.164168+01:00",
+        "DepartureTime": "0001-01-01T00:00:00",
+        "PricePerHour": 80,
+        "SpacesUsing": []
+      }
+    ]
   },
   {
     "TotalSize": 4,
     "SpaceNumber": 8,
-    "AvailableSize": 4,
-    "ParkedVehicles": []
+    "AvailableSize": 0,
+    "ParkedVehicles": [
+      {
+        "RegNumber": "LLL222",
+        "VehicleSize": 16,
+        "ArrivalTime": "2025-10-31T17:53:16.164168+01:00",
+        "DepartureTime": "0001-01-01T00:00:00",
+        "PricePerHour": 80,
+        "SpacesUsing": []
+      }
+    ]
   },
   {
     "TotalSize": 4,
@@ -88,30 +128,14 @@
   {
     "TotalSize": 4,
     "SpaceNumber": 10,
-    "AvailableSize": 2,
-    "ParkedVehicles": [
-      {
-        "RegNumber": "CCC333",
-        "VehicleSize": 2,
-        "ArrivalTime": "2025-10-30T19:02:47.8002732+01:00",
-        "DepartureTime": "0001-01-01T00:00:00",
-        "PricePerHour": 10
-      }
-    ]
+    "AvailableSize": 4,
+    "ParkedVehicles": []
   },
   {
     "TotalSize": 4,
     "SpaceNumber": 11,
-    "AvailableSize": 2,
-    "ParkedVehicles": [
-      {
-        "RegNumber": "BBB222",
-        "VehicleSize": 2,
-        "ArrivalTime": "2025-10-30T19:04:12.4712851+01:00",
-        "DepartureTime": "0001-01-01T00:00:00",
-        "PricePerHour": 10
-      }
-    ]
+    "AvailableSize": 4,
+    "ParkedVehicles": []
   },
   {
     "TotalSize": 4,
@@ -338,32 +362,101 @@
   {
     "TotalSize": 4,
     "SpaceNumber": 49,
-    "AvailableSize": 4,
-    "ParkedVehicles": []
+    "AvailableSize": 0,
+    "ParkedVehicles": [
+      {
+        "RegNumber": "AAA111",
+        "VehicleSize": 4,
+        "ArrivalTime": "2025-10-31T15:59:57.6402694+01:00",
+        "DepartureTime": "0001-01-01T00:00:00",
+        "PricePerHour": 20,
+        "SpacesUsing": []
+      }
+    ]
   },
   {
     "TotalSize": 4,
     "SpaceNumber": 50,
-    "AvailableSize": 4,
-    "ParkedVehicles": []
+    "AvailableSize": 0,
+    "ParkedVehicles": [
+      {
+        "RegNumber": "BBB222",
+        "VehicleSize": 2,
+        "ArrivalTime": "2025-10-31T16:00:06.2026438+01:00",
+        "DepartureTime": "0001-01-01T00:00:00",
+        "PricePerHour": 10,
+        "SpacesUsing": []
+      },
+      {
+        "RegNumber": "CCC333",
+        "VehicleSize": 2,
+        "ArrivalTime": "2025-10-31T16:00:14.7083977+01:00",
+        "DepartureTime": "0001-01-01T00:00:00",
+        "PricePerHour": 10,
+        "SpacesUsing": []
+      }
+    ]
   },
   {
     "TotalSize": 4,
     "SpaceNumber": 51,
-    "AvailableSize": 4,
-    "ParkedVehicles": []
+    "AvailableSize": 1,
+    "ParkedVehicles": [
+      {
+        "RegNumber": "DDD444",
+        "VehicleSize": 1,
+        "ArrivalTime": "2025-10-31T16:00:24.5402911+01:00",
+        "DepartureTime": "0001-01-01T00:00:00",
+        "PricePerHour": 5,
+        "SpacesUsing": []
+      },
+      {
+        "RegNumber": "EEE555",
+        "VehicleSize": 1,
+        "ArrivalTime": "2025-10-31T16:00:35.9303276+01:00",
+        "DepartureTime": "0001-01-01T00:00:00",
+        "PricePerHour": 5,
+        "SpacesUsing": []
+      },
+      {
+        "RegNumber": "GGG777",
+        "VehicleSize": 1,
+        "ArrivalTime": "2025-10-31T16:04:25.3180257+01:00",
+        "DepartureTime": "0001-01-01T00:00:00",
+        "PricePerHour": 5,
+        "SpacesUsing": []
+      }
+    ]
   },
   {
     "TotalSize": 4,
     "SpaceNumber": 52,
-    "AvailableSize": 4,
-    "ParkedVehicles": []
+    "AvailableSize": 2,
+    "ParkedVehicles": [
+      {
+        "RegNumber": "HHH888",
+        "VehicleSize": 2,
+        "ArrivalTime": "2025-10-31T16:01:36.8455405+01:00",
+        "DepartureTime": "0001-01-01T00:00:00",
+        "PricePerHour": 10,
+        "SpacesUsing": []
+      }
+    ]
   },
   {
     "TotalSize": 4,
     "SpaceNumber": 53,
-    "AvailableSize": 4,
-    "ParkedVehicles": []
+    "AvailableSize": 0,
+    "ParkedVehicles": [
+      {
+        "RegNumber": "III999",
+        "VehicleSize": 4,
+        "ArrivalTime": "2025-10-31T16:01:47.6974481+01:00",
+        "DepartureTime": "0001-01-01T00:00:00",
+        "PricePerHour": 20,
+        "SpacesUsing": []
+      }
+    ]
   },
   {
     "TotalSize": 4,
@@ -404,8 +497,17 @@
   {
     "TotalSize": 4,
     "SpaceNumber": 60,
-    "AvailableSize": 4,
-    "ParkedVehicles": []
+    "AvailableSize": 3,
+    "ParkedVehicles": [
+      {
+        "RegNumber": "KKK111",
+        "VehicleSize": 1,
+        "ArrivalTime": "2025-10-31T16:05:40.5042801+01:00",
+        "DepartureTime": "0001-01-01T00:00:00",
+        "PricePerHour": 5,
+        "SpacesUsing": []
+      }
+    ]
   },
   {
     "TotalSize": 4,

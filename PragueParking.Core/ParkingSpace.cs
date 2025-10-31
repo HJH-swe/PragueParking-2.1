@@ -38,7 +38,7 @@ namespace PragueParking.Core
         {
             // A "quick fix" - not a sustainable solution.
             // The method checks if there's space for 1/4 of the bus in a parking space
-            if (vehicle is Bus)
+            if (vehicle.VehicleSize == 16)
             {
                 return (vehicle.VehicleSize / 4) <= AvailableSize;
             }
@@ -53,7 +53,7 @@ namespace PragueParking.Core
             else
             {
                 ParkedVehicles.Add(vehicle);
-                if (vehicle is Bus)
+                if (vehicle.VehicleSize == 16)
                 {
                     AvailableSize -= (vehicle.VehicleSize / 4);
                 }
@@ -66,9 +66,18 @@ namespace PragueParking.Core
         }
         public ParkingSpace RemoveVehicle(Vehicle vehicle)
         {
-            ParkedVehicles.Remove(vehicle);
-            AvailableSize += vehicle.VehicleSize;
-            return this;
+            if (vehicle.VehicleSize == 16)
+            {
+                ParkedVehicles.Remove(vehicle);
+                AvailableSize += (vehicle.VehicleSize / 4);
+                return this;
+            }
+            else
+            {
+                ParkedVehicles.Remove(vehicle);
+                AvailableSize += vehicle.VehicleSize;
+                return this;
+            }
         }
         public IParkable FindVehicleInSpace(string regNumber)
         {
@@ -93,7 +102,14 @@ namespace PragueParking.Core
                 string vehicles = "";
                 foreach (IParkable vehicle in ParkedVehicles)
                 {
-                    vehicles += vehicle.RegNumber + "  ";
+                    if (vehicle.VehicleSize == 16)
+                    {
+                        return $"Spaces {SpaceNumber} - {SpaceNumber + 3}: {vehicle}\tAvailable space: {AvailableSize}";
+                    }
+                    else
+                    {
+                        vehicles += vehicle.RegNumber + "  ";
+                    }
                 }
                 return $"Space {SpaceNumber}: {vehicles}\tAvailable space: {AvailableSize}";
             }

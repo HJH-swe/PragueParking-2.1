@@ -22,6 +22,7 @@ namespace PragueParking.Core
         public DateTime ArrivalTime { get; init; }
         public DateTime DepartureTime { get; set; }
         public decimal PricePerHour { get; set; }
+        public List<IParkingSpace> SpacesUsing { get; set; } = new List<IParkingSpace>();
 
         // Mehtods
         public int HoursToCharge()

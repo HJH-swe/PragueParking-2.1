@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PragueParking.Core.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,7 @@ namespace PragueParking.Core.VehicleTypes
             VehicleSize = vehicleSize;
             PricePerHour = pricePerHour;
         }
+        public List<IParkingSpace> SpacesUsing { get; set; } = new List<IParkingSpace>();
 
         // Override methods from Vehicle class
         public override string PrintParkingReceipt()
