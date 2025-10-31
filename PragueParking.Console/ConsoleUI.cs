@@ -61,11 +61,8 @@ namespace PragueParking.Console
                             }
                             else
                             {
-                                AnsiConsole.Write(new Markup("\n[aquamarine1]No free space available.[/]\n\n"));
+                                AnsiConsole.Write(new Markup("\n[aquamarine1]No free space available.\nWelcome back another time.[/]\n\n"));
                             }
-
-                            // TODO: Add vehicle to spot, add to list in spot and amend list in garage
-                            AnsiConsole.Write(new Markup(vehicleToPark.ToString(), Color.Aquamarine1));
                         }
                         break;
                     }
@@ -93,7 +90,7 @@ namespace PragueParking.Console
                         Vehicle concreteVehicle = (Vehicle)vehicle;
                         space.RemoveVehicle(concreteVehicle);
                         AnsiConsole.Write(new Markup("\nVehicle successfully checked out.\n", Color.Aquamarine1));
-                        AnsiConsole.Write(new Markup(vehicle.PrintParkingReceipt(), Color.Aquamarine1));
+                        AnsiConsole.Write(new Markup(vehicle.PrintParkingReceipt(), Color.Aquamarine1));        //TODO: Change to print in panel
 
                         //Update parkingdata file here - no earlier in case check out fails
                         fileManager.SaveParkingData(garage.GetAllSpaces(), "../../../parkingdata.json");
@@ -110,10 +107,8 @@ namespace PragueParking.Console
                         IParkingSpace space = garage.FindVehicleSpace(regNumber);
                         if (space == null)
                         {
-
                             AnsiConsole.Write(new Markup("\n\nError! Vehicle not found.", Color.Aquamarine1));
                             break;
-
                         }
                         IParkable vehicle = space.FindVehicleInSpace(regNumber);
                         if (vehicle == null)
@@ -273,10 +268,12 @@ namespace PragueParking.Console
             List<string> vehicleOptions = new List<string>      // TODO: Update vehicle options, add bus, bicycle and shopping trolley
                                                                 // Change to alphabetical order??
             {
+                "[#ff00ff]BANANA BOAT[/]",
+                "[#ff00ff]BICYCLE[/]",
+                "[#ff00ff]BUS[/]",
                 "[#ff00ff]CAR[/]",
                 "[#ff00ff]MC[/]",
-                "[#ff00ff]BANANA BOAT[/]",
-                "[#ff00ff]TANDEM BICYCLE[/]\n\n",
+                "[#ff00ff]SHOPPING TROLLEY[/]\n\n",
                 "[#ff00ff]Exit to Main Menu[/]"
             };
             string vehicleSelect = AnsiConsole.Prompt(new SelectionPrompt<string>()
@@ -287,6 +284,33 @@ namespace PragueParking.Console
             string cleanSelect = Markup.Remove(vehicleSelect).Trim();
             switch (cleanSelect)
             {
+                case "BANANA BOAT":
+                    {
+                        if (allowedVehicles.Contains(cleanSelect))
+                        {
+                            return new BananaBoat(regNumber);
+                        }
+                        AnsiConsole.Write(new Markup($"\n\n{cleanSelect} is not an allowed vehicle.", Color.Aquamarine1));
+                        return null;
+                    }
+                case "BICYCLE":
+                    {
+                        if (allowedVehicles.Contains(cleanSelect))
+                        {
+                            return new Bicycle(regNumber, bicycleVehicleSize, pricelist.BicycleVehiclePrice);
+                        }
+                        AnsiConsole.Write(new Markup($"\n\n{cleanSelect} is not an allowed vehicle.", Color.Aquamarine1));
+                        return null;
+                    }
+                case "BUS":
+                    {
+                        if (allowedVehicles.Contains(cleanSelect))
+                        {
+                            return new Bus(regNumber, busVehicleSize, pricelist.BusVehiclePrice);
+                        }
+                        AnsiConsole.Write(new Markup($"\n\n{cleanSelect} is not an allowed vehicle.", Color.Aquamarine1));
+                        return null;
+                    }
                 case "CAR":
                     {
                         if (allowedVehicles.Contains(cleanSelect))
@@ -305,24 +329,15 @@ namespace PragueParking.Console
                         AnsiConsole.Write(new Markup($"\n\n{cleanSelect} is not an allowed vehicle.", Color.Aquamarine1));
                         return null;
                     }
-                case "BANANA BOAT":
+                case "SHOPPING TROLLEY":
                     {
                         if (allowedVehicles.Contains(cleanSelect))
                         {
-                            return new BananaBoat(regNumber);
+                            return new ShoppingTrolley(regNumber);
                         }
                         AnsiConsole.Write(new Markup($"\n\n{cleanSelect} is not an allowed vehicle.", Color.Aquamarine1));
                         return null;
                     }
-                //case "TANDEM BICYCLE":      // TODO: remove tandem and add Bus, Bicycle and Shopping trolley
-                //    {
-                //        if (allowedVehicles.Contains(cleanSelect))
-                //        {
-                //            return new TandemBicycle(regNumber);
-                //        }
-                //        AnsiConsole.Write(new Markup($"\n\n{cleanSelect} is not an allowed vehicle.", Color.Aquamarine1));
-                //        return null;
-                //    }
 
                 case "Exit to Main Menu":
                     return null;

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Quic;
+using System.Runtime.InteropServices.Marshalling;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -45,11 +46,36 @@ namespace PragueParking.Core
         {
             return parkingSpaces;
         }
+
+        // Logic for FindFreeSpace method:
+        // "Save" first 48 spaces for buses (as only first 50 fit buses, 48 --> 12 buses)
+        // Buses look for a free space from 1 - 48.
+        // Other vehicles start looking for free spaces from 49 - GarageSize.
+        // If no free space, then look at space 1-48
         public int FindFreeSpace(IParkable vehicle)     // TODO: Update method so buses get space 1-48, and others get 49 to GarageSize
         {
-            if (vehicle is Car)
+            if (vehicle is Bus)
             {
-
+                for (int i = 0; i < 48; i++)
+                {
+                    // Several nested if-statements to find 4 spaces next to each other
+                    if (parkingSpaces[i].AvailableSize == 4)
+                    {
+                        if (parkingSpaces[i+1].AvailableSize == 4)
+                        {
+                            if (parkingSpaces[i+2].AvailableSize == 4)
+                            {
+                                if (parkingSpaces[i+3].AvailableSize == 4)
+                                {
+                                    return i;   // First of the 4 free spaces
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else if (vehicle is Car)
+            {
                 for (int i = 0; i < parkingSpaces.Count; i++)
                 {
                     if (parkingSpaces[i].AvailableSize == 4)
@@ -77,16 +103,59 @@ namespace PragueParking.Core
                     }
                 }
             }
-            else if (vehicle is Bus)
-            {
-                // TODO: Add code
-            }
             else if (vehicle is Bicycle)
             {
-                // TODO: Add code
+                for (int i = 0; i < parkingSpaces.Count; i++)
+                {
+                    if (parkingSpaces[i].AvailableSize == 4)
+                    {
+                        return i;
+                    }
+                }
             }
             // Return -1 if no free spaces, garage is full 
             return -1;
+        }
+        public bool ParkVehicle(IParkable vehicle, out int freeSpace)
+        {
+            freeSpace = FindFreeSpace(vehicle);
+            if (freeSpace == -1)
+            {
+                return false;
+            }
+            else
+            {
+                if (vehicle is Bus)
+                {
+                    List<IParkingSpace> busSpaces = new List<IParkingSpace> { 
+                        parkingSpaces[freeSpace], 
+                        parkingSpaces[freeSpace + 1], 
+                        parkingSpaces[freeSpace + 2], 
+                        parkingSpaces[freeSpace + 3]};
+
+
+                    // Buses are parked in 4 steps (for 4 spaces) --> need to know if all 4 steps were successfull
+                    // Use bools - if AddVehicle fails at any point, the whole bus isn't parked 
+                    Vehicle concreteBus = (Vehicle)vehicle;
+                    bool allBusParked = true;
+                    foreach (IParkingSpace space in busSpaces)
+                    {
+                        bool success = space.AddVehicle(concreteBus);
+                        if (!success) 
+                        { 
+                            allBusParked = false;
+                            break;
+                        }
+                    }
+                    return allBusParked;
+                }
+                else
+                {
+                    var spaceToUse = parkingSpaces[freeSpace];
+                    Vehicle concreteVehicle = (Vehicle)vehicle;
+                    return spaceToUse.AddVehicle(concreteVehicle); 
+                }
+            }
         }
         public IParkingSpace FindVehicleSpace(string regNumber)
         {
@@ -103,20 +172,6 @@ namespace PragueParking.Core
                 spaceCounter++;
             }
             return null;
-        }
-        public bool ParkVehicle(IParkable vehicle, out int freeSpace)
-        {
-            freeSpace = FindFreeSpace(vehicle);
-            if (freeSpace == -1)
-            {
-                return false;
-            }
-            else
-            {
-                var spaceToUse = parkingSpaces[freeSpace];
-                Vehicle concreteVehicle = (Vehicle)vehicle;
-                return spaceToUse.AddVehicle(concreteVehicle);
-            }
         }
         public IParkingSpace GetParkingSpace(int spaceNumber)
         {

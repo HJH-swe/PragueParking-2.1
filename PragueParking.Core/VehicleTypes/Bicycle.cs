@@ -18,16 +18,13 @@ namespace PragueParking.Core.VehicleTypes
         public override string PrintParkingReceipt()
         {
             decimal parkingFee = ParkingFee();
-            return string.Format($"\nBICYCLYE {RegNumber}\n" + base.ToString());
-
-                //$"Arrival Time: {ArrivalTime:dd/MM/yyyy HH:mm}\nDeparture Time: {DepartureTime:dd/MM/yyyy HH:mm}\n" +     From base class
-                //$"Price per Hour: {PricePerHour} CZK\nParking fee: {parkingFee} CZK\n");
+            return string.Format($"\nBICYCLYE {RegNumber}\nArrival Time: {ArrivalTime:dd/MM/yyyy HH:mm}\nDeparture Time: {DepartureTime:dd/MM/yyyy HH:mm}\n" +
+                $"Price per Hour: {PricePerHour} CZK\nParking fee: {parkingFee} CZK\n");
         }
         public override string ToString()
         {
-            return string.Format($"\nBICYCLE {RegNumber}\n" + base.ToString());
-                //$"Arrival Time: {ArrivalTime:dd/MM/yyyy HH:mm}\n" +
-                //$"Price per Hour: {PricePerHour} CZK");
+            return string.Format($"\nBICYCLE {RegNumber}\nArrival Time: {ArrivalTime:dd/MM/yyyy HH:mm}\n" +
+                $"Price per Hour: {PricePerHour} CZK");
         }
     }
 }

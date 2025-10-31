@@ -1,4 +1,5 @@
 ﻿using PragueParking.Core.Interfaces;
+using PragueParking.Core.VehicleTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,6 +36,12 @@ namespace PragueParking.Core
         // Methods
         public bool IsEnoughSpace(IParkable vehicle)
         {
+            // A "quick fix" - not a sustainable solution.
+            // The method checks if there's space for 1/4 of the bus in a parking space
+            if (vehicle is Bus)
+            {
+                return (vehicle.VehicleSize / 4) <= AvailableSize;
+            }
             return vehicle.VehicleSize <= AvailableSize;
         }
         public bool AddVehicle(Vehicle vehicle)
@@ -46,7 +53,14 @@ namespace PragueParking.Core
             else
             {
                 ParkedVehicles.Add(vehicle);
-                AvailableSize -= vehicle.VehicleSize;
+                if (vehicle is Bus)
+                {
+                    AvailableSize -= (vehicle.VehicleSize / 4);
+                }
+                else
+                {
+                    AvailableSize -= vehicle.VehicleSize;
+                }
                 return true;
             }
         }

@@ -5,19 +5,27 @@
     "AvailableSize": 0,
     "ParkedVehicles": [
       {
-        "RegNumber": "AAA111",
-        "VehicleSize": 4,
-        "ArrivalTime": "2025-10-30T19:02:28.0595696+01:00",
+        "RegNumber": "BUS111",
+        "VehicleSize": 16,
+        "ArrivalTime": "2025-10-31T12:01:53.9311063+01:00",
         "DepartureTime": "0001-01-01T00:00:00",
-        "PricePerHour": 20
+        "PricePerHour": 80
       }
     ]
   },
   {
     "TotalSize": 4,
     "SpaceNumber": 2,
-    "AvailableSize": 4,
-    "ParkedVehicles": []
+    "AvailableSize": 0,
+    "ParkedVehicles": [
+      {
+        "RegNumber": "BUS111",
+        "VehicleSize": 16,
+        "ArrivalTime": "2025-10-31T12:01:53.9311063+01:00",
+        "DepartureTime": "0001-01-01T00:00:00",
+        "PricePerHour": 80
+      }
+    ]
   },
   {
     "TotalSize": 4,
@@ -25,25 +33,25 @@
     "AvailableSize": 0,
     "ParkedVehicles": [
       {
-        "RegNumber": "DDD444",
-        "VehicleSize": 4,
-        "ArrivalTime": "2025-10-30T19:03:55.3751462+01:00",
+        "RegNumber": "BUS111",
+        "VehicleSize": 16,
+        "ArrivalTime": "2025-10-31T12:01:53.9311063+01:00",
         "DepartureTime": "0001-01-01T00:00:00",
-        "PricePerHour": 20
+        "PricePerHour": 80
       }
     ]
   },
   {
     "TotalSize": 4,
     "SpaceNumber": 4,
-    "AvailableSize": 2,
+    "AvailableSize": 0,
     "ParkedVehicles": [
       {
-        "RegNumber": "BBB222",
-        "VehicleSize": 2,
-        "ArrivalTime": "2025-10-30T19:04:12.4712851+01:00",
+        "RegNumber": "BUS111",
+        "VehicleSize": 16,
+        "ArrivalTime": "2025-10-31T12:01:53.9311063+01:00",
         "DepartureTime": "0001-01-01T00:00:00",
-        "PricePerHour": 10
+        "PricePerHour": 80
       }
     ]
   },
@@ -94,8 +102,16 @@
   {
     "TotalSize": 4,
     "SpaceNumber": 11,
-    "AvailableSize": 4,
-    "ParkedVehicles": []
+    "AvailableSize": 2,
+    "ParkedVehicles": [
+      {
+        "RegNumber": "BBB222",
+        "VehicleSize": 2,
+        "ArrivalTime": "2025-10-30T19:04:12.4712851+01:00",
+        "DepartureTime": "0001-01-01T00:00:00",
+        "PricePerHour": 10
+      }
+    ]
   },
   {
     "TotalSize": 4,

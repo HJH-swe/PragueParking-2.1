@@ -52,10 +52,9 @@ namespace PragueParking.Core
             return string.Format($"Arrival Time: {ArrivalTime:dd/MM/yyyy HH:mm}\nDeparture Time: {DepartureTime:dd/MM/yyyy HH:mm}\n" +
                 $"Price per Hour: {PricePerHour} CZK\nParking fee: {parkingFee} CZK\n");
         }
-
         public override string ToString()       // TODO: override method in each subclass? Or remove from Vehicle class?
         {
-            return string.Format($"Arrival Time: {ArrivalTime:dd/MM/yyyy HH:mm}\nPrice per Hour: {PricePerHour} CZK");
+            return string.Format($"\n{RegNumber}\nArrival Time: {ArrivalTime:dd/MM/yyyy HH:mm}\nPrice per Hour: {PricePerHour} CZK");
         }
     }
 }
