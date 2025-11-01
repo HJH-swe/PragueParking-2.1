@@ -19,8 +19,8 @@ namespace PragueParking.Data
             BicycleVehicleSize = bicycleVehicleSize;
             ParkingSpaceSize = parkingSpaceSize;
         }
-        public int GarageSize { get; }                  // Props don't need setters --> shouldn't change after configuration
-        public List<string> AllowedVehicles { get; }
+        public int GarageSize { get; set; }                  // Most props don't need setters --> shouldn't change after configuration
+        public List<string> AllowedVehicles { get; }         // But GarageSize needs a setter - user can change size in version 2.1
         public int MCVehicleSize { get; }
         public int CarVehicleSize { get; }
         public int BusVehicleSize { get; }

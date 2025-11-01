@@ -45,6 +45,20 @@ namespace PragueParking.Data
                                                                                                 // Use ParkingSpace for json, and then cast to IParkingSpace
                                                                                                 // if savedData is null, return a new list of IParkingSpace
         }
+        public string SaveConfigurationData(GarageConfiguration configuration)
+        {
+            try
+            {
+                var options = new JsonSerializerOptions { WriteIndented = true };
+                string jsonString = JsonSerializer.Serialize(configuration, options);
+                File.WriteAllText("../../../configuration.json", jsonString);
+                return $"Configuration saved to ../../../configuration.json.";
+            }
+            catch (Exception e)
+            {
+                return $"Error saving data to ../../../configuration.json: {e.Message}";
+            }
+        }
 
         public GarageConfiguration? ConfigureParkingGarage(string configFilePath)
         {

@@ -1,6 +1,11 @@
 {
   "GarageSize": 100,
-  "AllowedVehicles": [ "MC", "CAR", "BUS", "BICYCLE" ],
+  "AllowedVehicles": [
+    "MC",
+    "CAR",
+    "BUS",
+    "BICYCLE"
+  ],
   "MCVehicleSize": 2,
   "CarVehicleSize": 4,
   "BusVehicleSize": 16,

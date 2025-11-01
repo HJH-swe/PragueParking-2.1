@@ -3,6 +3,7 @@ using PragueParking.Core.VehicleTypes;
 using Spectre.Console;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Net.Quic;
 using System.Runtime.InteropServices.Marshalling;
@@ -33,7 +34,7 @@ namespace PragueParking.Core
             }
         }
 
-        public int GarageSize { get; private set; }
+        public int GarageSize { get; set; }
         public List<string> AllowedVehicles { get; set; }
         public int MCVehicleSize { get; set; }
         public int CarVehicleSize { get; set; }
@@ -47,12 +48,12 @@ namespace PragueParking.Core
             return parkingSpaces;
         }
 
-        // Logic for FindFreeSpace method:
+        // FindFreeSpace method:
         // "Save" first 48 spaces for buses (as only first 50 fit buses, 48 --> 12 buses)
-        // Buses look for a free space from 1 - 48.
-        // Other vehicles start looking for free spaces from 49 - GarageSize.
+        // Buses: find a free space from 1 - 48.
+        // Other vehicles: first find a free space from 49 - GarageSize.
         // If no free space, then look at space 1-48
-        public int FindFreeSpace(IParkable vehicle)     // TODO: Update method so buses get space 1-48, and others get 49 to GarageSize
+        public int FindFreeSpace(IParkable vehicle)
         {
             if (vehicle is Bus)
             {
@@ -277,11 +278,24 @@ namespace PragueParking.Core
                 return parkingSpaces[spaceNumber];
             }
         }
+        public bool CheckForParkedVehicles(int fromIndex)
+        {
+            bool vehicleFound = false;
+            for (int i = fromIndex; i < parkingSpaces.Count; i++)
+            {
+                if (parkingSpaces[i].ParkedVehicles.Count > 0)      // If there's a vehicle in any space
+                {
+                    vehicleFound = true;
+                }
+            }
+            return vehicleFound;
+        }
         // Method to remove extra spaces if new configuration of Garage Size is smaller than before
         public void RemoveRangeOfSpaces(int fromIndex, int toIndex)
         {
             parkingSpaces.RemoveRange(fromIndex, (toIndex - fromIndex));        // toIndex - fromIndex = number of spaces to remove
-                                                                                // example: fromIndex = 51, toIndex = 100, toIndex-fromIndex = 49
+            // Last space didn't get the right space number, so fixing here
+            parkingSpaces[fromIndex].SpaceNumber = fromIndex + 1;
         }
         public void UpdateAllVehiclePrices(PriceList priceList)
         {
@@ -359,9 +373,13 @@ namespace PragueParking.Core
                 {
                     printSpots += $"[{colorString}]{spaceCounter}    [/]";
                 }
-                else
+                else if(spaceCounter > 9 && spaceCounter < 100)
                 {
                     printSpots += $"[{colorString}]{spaceCounter}   [/]";
+                }
+                else if(spaceCounter >= 100)
+                {
+                    printSpots += $"[{colorString}]{spaceCounter}  [/]";
                 }
                 spaceCounter++;
             }

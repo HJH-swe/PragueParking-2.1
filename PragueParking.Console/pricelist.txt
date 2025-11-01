@@ -1,6 +1,6 @@
-﻿# Price list - prices for different vehicle types
+# Price list - prices for different vehicle types
 # To change the price: Change the number after the equal sign
-# To reload the prices in the application: Choose menu option "Reload Price List"
+# To reload the prices in the application: Choose menu option "Configure Parking Garage or Price List"
 # Price for cars (CZK)
 CAR.price=20
 # Price for motorbikes (CZK)

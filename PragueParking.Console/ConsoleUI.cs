@@ -7,16 +7,15 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics.Metrics;
+using System.Runtime.CompilerServices;
 
 namespace PragueParking.Console
 {
     public class ConsoleUI
     {
 
-        public static void MainMenu(out bool breaker)
+        public static void MainMenu(ParkingGarage garage, PriceList priceList, out bool breaker)
         {
-            var (garage, priceList) = Initialize();
-
             FileManager fileManager = new FileManager();
             breaker = true;
             WritePanel("MAIN MENU", "#ff00ff", "#5fffd7");
@@ -87,7 +86,7 @@ namespace PragueParking.Console
                             AnsiConsole.Write(new Markup("\n\nError! Vehicle not found.", Color.Aquamarine1));
                             break;
                         }
-                        
+
                         if (vehicle.VehicleSize == garage.BusVehicleSize)  // check if vehicle is bus
                         {
                             garage.RemoveBus(vehicle, space);
@@ -218,7 +217,7 @@ namespace PragueParking.Console
                                 // Load data from last save - cancels out incomplete move
                                 fileManager.LoadParkingData("../../../parkingdata.json");
                             }
-                            
+
                         }
                         else
                         {
@@ -278,17 +277,24 @@ namespace PragueParking.Console
                         string cleanUpdateSelect = Markup.Remove(updateSelect).Trim();
                         if (cleanUpdateSelect == "PARKING GARAGE")
                         {
-                            // Update pricelist here, in case user selects "Exit to Main Menu"
-                            //priceList = LoadPriceList(fileManager);
-                            //garage.UpdateAllVehiclePrices(priceList);
-                            //AnsiConsole.Write(new Markup($"\n\nPrices for all parked vehicles have been updated.", Color.Aquamarine1));
-                            //// Re-save parked vehicles with new prices
-                            //fileManager.SaveParkingData(garage.GetAllSpaces(), "../../../parkingdata.json");
+                            garage = ReConfigureParkingGarage(garage);
+                            if (garage == null)
+                            {
+                                AnsiConsole.Write(new Markup("\n\nParking garage was not reconfigured.", Color.Aquamarine1));
+                            }
+                            else
+                            {
+                                AnsiConsole.Write(new Markup("\n\nParking garage has been reconfigured.", Color.Aquamarine1));
+                                Thread.Sleep(2000);
+                                AnsiConsole.Clear();
+                                MainMenu(garage, priceList, out breaker);
+                            }
                         }
                         else if (cleanUpdateSelect == "PRICE LIST")
                         {
                             priceList = UpdatePriceList(fileManager, priceList);
                             ApplyNewPrices(garage, priceList);
+                            MainMenu(garage, priceList, out breaker);
                         }
                         // No "else" needed. If user selects "Exit to Main Menu" --> break and return to Main Menu
                         break;
@@ -460,7 +466,6 @@ namespace PragueParking.Console
                 config.MCVehicleSize, config.CarVehicleSize, config.BusVehicleSize, config.BicycleVehicleSize, config.ParkingSpaceSize);
 
             // Add check to see if Garage Size is smaller than amount of parking spaces in loaded data
-            // TODO: This doesn't catch if there are vehicles parked in spaces removed
             if (garage.GarageSize < parkingData.Count)
             {
                 garage.RemoveRangeOfSpaces(garage.GarageSize, parkingData.Count);
@@ -468,7 +473,85 @@ namespace PragueParking.Console
             return garage;
 
         }
-        // Moethod to load Price List
+        public static ParkingGarage? ReConfigureParkingGarage(ParkingGarage garage)
+        {
+            FileManager fileManager = new FileManager();
+            List<IParkingSpace> parkingData = fileManager.LoadParkingData("../../../parkingdata.json");
+            GarageConfiguration gc = fileManager.ConfigureParkingGarage("../../../configuration.json");
+            List<string> configOptions = new List<string>
+                        {
+                            "[#ff00ff]INCREASE[/]",
+                            "[#ff00ff]DECREASE[/]\n\n",
+                        };
+            string updateSelect = AnsiConsole.Prompt(new SelectionPrompt<string>()
+                 .Title($"[#ff00ff]\n\nDo you want to increase or decrease the number of parking spaces?\n(Current parking garage size: {garage.GarageSize})[/]")
+                 .AddChoices(configOptions)
+            );
+            string cleanUpdateSelect = Markup.Remove(updateSelect).Trim();
+            if (cleanUpdateSelect == "INCREASE")
+            {
+                string sizeString = AnsiConsole.Prompt(new TextPrompt<string>("[#ff00ff]\nEnter new size of parking garage:[/]"));
+                int newSize = int.Parse(sizeString);
+                gc.GarageSize = newSize;
+                ParkingGarage updatedGarage = new ParkingGarage(parkingData, gc.GarageSize, gc.AllowedVehicles,
+                    gc.MCVehicleSize, gc.CarVehicleSize, gc.BusVehicleSize, gc.BicycleVehicleSize, gc.ParkingSpaceSize);
+                // Save new configuration to config file
+                string saveResult = fileManager.SaveConfigurationData(gc);
+                // Print if save was successful
+                AnsiConsole.Write(new Markup($"\n\n{saveResult}", Color.Aquamarine1));
+                // Update parkingdata.json file
+                fileManager.SaveParkingData(updatedGarage.GetAllSpaces(), "../../../parkingdata.json");
+                return updatedGarage;
+            }
+            else if (cleanUpdateSelect == "DECREASE")
+            {
+                string sizeString = AnsiConsole.Prompt(new TextPrompt<string>("[#ff00ff]\nEnter new size of parking garage:[/]"));
+                int newSize = int.Parse(sizeString);
+                // Check if there are vehicles parked in spaces to delete
+                bool parkedVehicles = garage.CheckForParkedVehicles(newSize - 1);
+                if (parkedVehicles)
+                {
+                    var howToProceed = AnsiConsole.Prompt(new SelectionPrompt<string>()
+                              .Title("[#ff00ff]\n\nWarning! There are vehicles parked in parking spaces to delete.\n" +
+                              "Do you want to delete parking spaces anyway and lose customer data?\n\n[/]?")
+                              .AddChoices(new[] { "[#ff00ff]YES[/]",
+                                                  "[#ff00ff]NO[/]" }));
+                    string cleanSelect = Markup.Remove(howToProceed).Trim();
+                    if (cleanSelect == "YES")
+                    {
+                        garage.RemoveRangeOfSpaces(newSize - 1, garage.GarageSize - 1);
+                        gc.GarageSize = newSize;
+                        garage.GarageSize = newSize;
+                        // Save new configuration to config file
+                        string saveResult = fileManager.SaveConfigurationData(gc);
+                        // Print if save was successful
+                        AnsiConsole.Write(new Markup($"\n\n{saveResult}", Color.Aquamarine1));
+                        // Update parkingdata.json file
+                        fileManager.SaveParkingData(garage.GetAllSpaces(), "../../../parkingdata.json");
+                        return garage;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                // If no parked vehicles in spaces to remove
+                else
+                {
+                    garage.RemoveRangeOfSpaces(newSize - 1, garage.GarageSize - 1);
+                    gc.GarageSize = newSize;
+                    garage.GarageSize = newSize;
+                    // Save new configuration to config file
+                    string saveResult = fileManager.SaveConfigurationData(gc);
+                    // Print if save was successful
+                    AnsiConsole.Write(new Markup($"\n\n{saveResult}", Color.Aquamarine1));
+                    return garage;
+                }
+            }
+            return null;  // Shouldn't end up here
+        }
+
+        // Method to load Price List
         public static PriceList LoadPriceList(FileManager fileManager)
         {
             string priceListPath = "../../../pricelist.txt";
@@ -484,10 +567,7 @@ namespace PragueParking.Console
 
             return priceList;
         }
-        public static (ParkingGarage garage, PriceList priceList) ReInitializeGarage()
-        {
-            return (null, null);
-        }
+
         public static PriceList ReloadPriceList(FileManager fileManager, string filePath)
         {
             PriceListConfiguration priceConfig = fileManager.ConfigurePriceList(filePath);
@@ -550,6 +630,8 @@ namespace PragueParking.Console
             {
                 AnsiConsole.Write(new Markup($"\n\nNew prices will apply to new parked vehicles.", Color.Aquamarine1));
             }
+            Thread.Sleep(2000);
+            AnsiConsole.Clear();
         }
         private static void WritePanel(string panelText, string textColor, string borderColor)
         {

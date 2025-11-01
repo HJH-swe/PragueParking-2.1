@@ -47,13 +47,13 @@ namespace PragueParking.Core
             return parkingFee;
         }
 
-        public virtual string PrintParkingReceipt()     // TODO: overload method in each subclass?
+        public virtual string PrintParkingReceipt()
         {
             decimal parkingFee = ParkingFee();
             return string.Format($"Arrival Time: {ArrivalTime:dd/MM/yyyy HH:mm}\nDeparture Time: {DepartureTime:dd/MM/yyyy HH:mm}\n" +
                 $"Price per Hour: {PricePerHour} CZK\nParking fee: {parkingFee} CZK\n");
         }
-        public override string ToString()       // TODO: override method in each subclass? Or remove from Vehicle class?
+        public override string ToString()
         {
             return string.Format($"\n{RegNumber}\nArrival Time: {ArrivalTime:dd/MM/yyyy HH:mm}\nPrice per Hour: {PricePerHour} CZK");
         }

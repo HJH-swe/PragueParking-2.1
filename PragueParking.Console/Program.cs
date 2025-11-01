@@ -12,12 +12,12 @@ namespace PragueParking.Console
         {
             //try   TODO: Ended up in catch, not sure why?
             //{
-                // var (garage, priceList) = ConsoleUI.Initialize();    TODO: test - move to ConsoleUI
+                var (garage, priceList) = ConsoleUI.Initialize();
 
                 bool breaker = true;
                 do
                 {
-                    ConsoleUI.MainMenu(out breaker);
+                    ConsoleUI.MainMenu(garage, priceList, out breaker);
                 }
                 while (breaker);
             //}
