@@ -424,7 +424,7 @@ namespace PragueParking.Console
                     {
                         return ValidationResult.Error("[aquamarine1]\n\nError! Invalid registration number.[/]");
                     }
-                    return ValidationResult.Success();     // default case
+                    return ValidationResult.Success();
                 })
                 );
             // If user only hits Enter --> Main Menu

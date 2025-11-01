@@ -10,8 +10,6 @@ namespace PragueParking.Console
     {
         private static void Main(string[] args)
         {
-            //try   TODO: Ended up in catch, not sure why?
-            //{
                 var (garage, priceList) = ConsoleUI.Initialize();
 
                 bool breaker = true;
@@ -20,12 +18,6 @@ namespace PragueParking.Console
                     ConsoleUI.MainMenu(garage, priceList, out breaker);
                 }
                 while (breaker);
-            //}
-            //catch (Exception ex)
-            //{
-            //    AnsiConsole.Write(new Markup($"[red]Error! {ex.Message}[/]"));
-            //    AnsiConsole.Console.Input.ReadKey(false);
-            //}
         }
     }
 }
