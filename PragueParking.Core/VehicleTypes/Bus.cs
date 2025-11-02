@@ -10,7 +10,7 @@ namespace PragueParking.Core.VehicleTypes
     public class Bus : Vehicle
     {
         // Constructor
-        public Bus(string regNumber, int vehicleSize, int pricePerHour) : base(regNumber)
+        public Bus(string regNumber, int vehicleSize, decimal pricePerHour) : base(regNumber)
         {
             VehicleSize = vehicleSize;
             PricePerHour = pricePerHour;

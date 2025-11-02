@@ -412,14 +412,17 @@ namespace PragueParking.Core
         public override string ToString()
         {
             StringBuilder parkingGarage = new StringBuilder();
-            parkingGarage.AppendLine("\nStatus of entire garage:\n");
+            parkingGarage.AppendLine("\nList of parked vehicles:\n");
 
             if (parkingSpaces.Count > 0)
             {
                 //parkingGarage.Append(string.Join("\n", parkingSpaces));
                 foreach (var parkingSpace in parkingSpaces)
                 {
-                    parkingGarage.Append(parkingSpace + "\n");
+                    if (parkingSpace.ParkedVehicles.Count > 0)
+                    {
+                        parkingGarage.Append(parkingSpace + "\n");
+                    }
                 }
             }
             else

@@ -250,7 +250,7 @@ namespace PragueParking.Console
                             "[#ff00ff]NO[/]\n\n",
                         };
                         string updateSelect = AnsiConsole.Prompt(new SelectionPrompt<string>()
-                             .Title("[#ff00ff]\n\nDo you want to print a detailed list of all parking spaces?[/]")
+                             .Title("[#ff00ff]\n\nDo you want to print a list of parked vehicles?[/]")
                              .AddChoices(updateOptions)
                         );
                         string cleanUpdateSelect = Markup.Remove(updateSelect).Trim();
@@ -285,7 +285,7 @@ namespace PragueParking.Console
                             else
                             {
                                 AnsiConsole.Write(new Markup("\n\nParking garage has been reconfigured.", Color.Aquamarine1));
-                                Thread.Sleep(2000);
+                                AnsiConsole.Console.Input.ReadKey(false);
                                 AnsiConsole.Clear();
                                 MainMenu(garage, priceList, out breaker);
                             }
@@ -318,8 +318,6 @@ namespace PragueParking.Console
             AnsiConsole.Console.Input.ReadKey(false);
             AnsiConsole.Clear();
         }
-
-
 
         public static IParkable? SelectVehicleType(int mcVehicleSize, int carVehicleSize, int busVehicleSize, int bicycleVehicleSize,
                                                         List<string> allowedVehicles, PriceList pricelist)
@@ -480,7 +478,7 @@ namespace PragueParking.Console
             GarageConfiguration gc = fileManager.ConfigureParkingGarage("../../../configuration.json");
             List<string> configOptions = new List<string>
                         {
-                            "[#ff00ff]INCREASE[/]",
+                            "[#ff00ff]INCREASE[/]\n",
                             "[#ff00ff]DECREASE[/]\n\n",
                         };
             string updateSelect = AnsiConsole.Prompt(new SelectionPrompt<string>()
@@ -513,7 +511,7 @@ namespace PragueParking.Console
                 {
                     var howToProceed = AnsiConsole.Prompt(new SelectionPrompt<string>()
                               .Title("[#ff00ff]\n\nWarning! There are vehicles parked in parking spaces to delete.\n" +
-                              "Do you want to delete parking spaces anyway and lose customer data?\n\n[/]?")
+                              "Do you want to delete parking spaces and [/][#5fffd7]lose customer data?\n\n[/]")
                               .AddChoices(new[] { "[#ff00ff]YES[/]",
                                                   "[#ff00ff]NO[/]" }));
                     string cleanSelect = Markup.Remove(howToProceed).Trim();
@@ -545,6 +543,8 @@ namespace PragueParking.Console
                     string saveResult = fileManager.SaveConfigurationData(gc);
                     // Print if save was successful
                     AnsiConsole.Write(new Markup($"\n\n{saveResult}", Color.Aquamarine1));
+                    // Update parkingdata.json file
+                    fileManager.SaveParkingData(garage.GetAllSpaces(), "../../../parkingdata.json");
                     return garage;
                 }
             }
@@ -630,7 +630,7 @@ namespace PragueParking.Console
             {
                 AnsiConsole.Write(new Markup($"\n\nNew prices will apply to new parked vehicles.", Color.Aquamarine1));
             }
-            Thread.Sleep(2000);
+            AnsiConsole.Console.Input.ReadKey(false);
             AnsiConsole.Clear();
         }
         private static void WritePanel(string panelText, string textColor, string borderColor)

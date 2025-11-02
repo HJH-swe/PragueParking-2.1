@@ -99,19 +99,19 @@ namespace PragueParking.Data
                     // Set PriceList properties directly
                     if (line.StartsWith("CAR"))
                     {
-                        priceConfiguration.PriceList.CarVehiclePrice = Convert.ToInt32(line.Substring(line.IndexOf("=") + 1)); // CAR.price[=]20
+                        priceConfiguration.PriceList.CarVehiclePrice = Convert.ToDecimal(line.Substring(line.IndexOf("=") + 1)); // CAR.price[=]20
                     }
                     else if (line.StartsWith("MC"))
                     {
-                        priceConfiguration.PriceList.MCVehiclePrice = Convert.ToInt32(line.Substring(line.IndexOf("=") + 1));
+                        priceConfiguration.PriceList.MCVehiclePrice = Convert.ToDecimal(line.Substring(line.IndexOf("=") + 1));
                     }
                     else if (line.StartsWith("BUS"))
                     {
-                        priceConfiguration.PriceList.BusVehiclePrice = Convert.ToInt32(line.Substring(line.IndexOf("=") + 1));
+                        priceConfiguration.PriceList.BusVehiclePrice = Convert.ToDecimal(line.Substring(line.IndexOf("=") + 1));
                     }
                     else if (line.StartsWith("BICYCLE"))
                     {
-                        priceConfiguration.PriceList.BicycleVehiclePrice = Convert.ToInt32(line.Substring(line.IndexOf("=") + 1));
+                        priceConfiguration.PriceList.BicycleVehiclePrice = Convert.ToDecimal(line.Substring(line.IndexOf("=") + 1));
                     }
                 }
                 return priceConfiguration;

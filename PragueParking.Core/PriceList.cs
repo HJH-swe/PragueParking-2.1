@@ -12,16 +12,16 @@ namespace PragueParking.Core
         {
 
         }
-        public PriceList(int mcPricePerHour, int carPricePerHour, int busPricePerHour, int bicyclePricePerHour)
+        public PriceList(decimal mcPricePerHour, decimal carPricePerHour, decimal busPricePerHour, decimal bicyclePricePerHour)
         {
             MCVehiclePrice = mcPricePerHour;
             CarVehiclePrice = carPricePerHour;
             BusVehiclePrice = busPricePerHour;
             BicycleVehiclePrice = bicyclePricePerHour;
         }
-        public int MCVehiclePrice { get; set; }
-        public int CarVehiclePrice { get; set; }
-        public int BusVehiclePrice { get; set; }
-        public int BicycleVehiclePrice { get; set; }
+        public decimal MCVehiclePrice { get; set; }
+        public decimal CarVehiclePrice { get; set; }
+        public decimal BusVehiclePrice { get; set; }
+        public decimal BicycleVehiclePrice { get; set; }
     }
 }

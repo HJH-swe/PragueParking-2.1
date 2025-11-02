@@ -65,9 +65,9 @@
     "AvailableSize": 0,
     "ParkedVehicles": [
       {
-        "RegNumber": "LLL222",
+        "RegNumber": "BUSBUS",
         "VehicleSize": 16,
-        "ArrivalTime": "2025-10-31T17:53:16.164168+01:00",
+        "ArrivalTime": "2025-11-02T11:35:56.7275694+01:00",
         "DepartureTime": "0001-01-01T00:00:00",
         "PricePerHour": 80,
         "SpacesUsing": []
@@ -80,9 +80,9 @@
     "AvailableSize": 0,
     "ParkedVehicles": [
       {
-        "RegNumber": "LLL222",
+        "RegNumber": "BUSBUS",
         "VehicleSize": 16,
-        "ArrivalTime": "2025-10-31T17:53:16.164168+01:00",
+        "ArrivalTime": "2025-11-02T11:35:56.7275694+01:00",
         "DepartureTime": "0001-01-01T00:00:00",
         "PricePerHour": 80,
         "SpacesUsing": []
@@ -95,9 +95,9 @@
     "AvailableSize": 0,
     "ParkedVehicles": [
       {
-        "RegNumber": "LLL222",
+        "RegNumber": "BUSBUS",
         "VehicleSize": 16,
-        "ArrivalTime": "2025-10-31T17:53:16.164168+01:00",
+        "ArrivalTime": "2025-11-02T11:35:56.7275694+01:00",
         "DepartureTime": "0001-01-01T00:00:00",
         "PricePerHour": 80,
         "SpacesUsing": []
@@ -110,9 +110,9 @@
     "AvailableSize": 0,
     "ParkedVehicles": [
       {
-        "RegNumber": "LLL222",
+        "RegNumber": "BUSBUS",
         "VehicleSize": 16,
-        "ArrivalTime": "2025-10-31T17:53:16.164168+01:00",
+        "ArrivalTime": "2025-11-02T11:35:56.7275694+01:00",
         "DepartureTime": "0001-01-01T00:00:00",
         "PricePerHour": 80,
         "SpacesUsing": []
@@ -362,8 +362,17 @@
   {
     "TotalSize": 4,
     "SpaceNumber": 49,
-    "AvailableSize": 4,
-    "ParkedVehicles": []
+    "AvailableSize": 0,
+    "ParkedVehicles": [
+      {
+        "RegNumber": "CAR123",
+        "VehicleSize": 4,
+        "ArrivalTime": "2025-11-02T11:36:25.3714978+01:00",
+        "DepartureTime": "0001-01-01T00:00:00",
+        "PricePerHour": 20,
+        "SpacesUsing": []
+      }
+    ]
   },
   {
     "TotalSize": 4,
@@ -414,14 +423,14 @@
   {
     "TotalSize": 4,
     "SpaceNumber": 52,
-    "AvailableSize": 2,
+    "AvailableSize": 0,
     "ParkedVehicles": [
       {
-        "RegNumber": "HHH888",
-        "VehicleSize": 2,
-        "ArrivalTime": "2025-10-31T16:01:36.8455405+01:00",
+        "RegNumber": "CAR456",
+        "VehicleSize": 4,
+        "ArrivalTime": "2025-11-02T11:36:32.7962397+01:00",
         "DepartureTime": "0001-01-01T00:00:00",
-        "PricePerHour": 10,
+        "PricePerHour": 20,
         "SpacesUsing": []
       }
     ]
@@ -471,17 +480,8 @@
   {
     "TotalSize": 4,
     "SpaceNumber": 60,
-    "AvailableSize": 0,
-    "ParkedVehicles": [
-      {
-        "RegNumber": "III999",
-        "VehicleSize": 4,
-        "ArrivalTime": "2025-11-01T14:28:20.7668148+01:00",
-        "DepartureTime": "0001-01-01T00:00:00",
-        "PricePerHour": 20,
-        "SpacesUsing": []
-      }
-    ]
+    "AvailableSize": 4,
+    "ParkedVehicles": []
   },
   {
     "TotalSize": 4,

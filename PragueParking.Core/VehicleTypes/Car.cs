@@ -8,7 +8,7 @@ namespace PragueParking.Core.VehicleTypes
 {
     public class Car : Vehicle
     {
-        public Car(string regNumber, int vehicleSize, int pricePerHour) : base(regNumber)
+        public Car(string regNumber, int vehicleSize, decimal pricePerHour) : base(regNumber)
         {
             VehicleSize = vehicleSize;
             PricePerHour = pricePerHour;

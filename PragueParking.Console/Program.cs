@@ -10,14 +10,15 @@ namespace PragueParking.Console
     {
         private static void Main(string[] args)
         {
-                var (garage, priceList) = ConsoleUI.Initialize();
 
-                bool breaker = true;
-                do
-                {
-                    ConsoleUI.MainMenu(garage, priceList, out breaker);
-                }
-                while (breaker);
+
+            bool breaker = true;
+            do
+            {
+                var (garage, priceList) = ConsoleUI.Initialize();
+                ConsoleUI.MainMenu(garage, priceList, out breaker);
+            }
+            while (breaker);
         }
     }
 }
