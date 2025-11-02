@@ -122,8 +122,6 @@ namespace PragueParking.Console
                             AnsiConsole.Write(new Markup("\n\nError! Vehicle not found.", Color.Aquamarine1));
                             break;
                         }
-
-                        //AnsiConsole.Write(new Markup(vehicle.ToString(), Color.Aquamarine1));
                         AnsiConsole.Write(new Markup(space.PrintParkingSpace(space.SpaceNumber), Color.Aquamarine1));
 
                         break;
@@ -138,7 +136,6 @@ namespace PragueParking.Console
                         {
                             break;
                         }
-                        // Save space number vehicle is in - space.SpaceNumber
                         IParkingSpace space = garage.FindVehicleSpace(regNumber);
                         if (space == null)
                         {
@@ -154,7 +151,7 @@ namespace PragueParking.Console
                         }
                         if (vehicle.VehicleSize == 16)
                         {
-                            // Buses can only fit in space 1-48, which means user must choose space 1-45 (first space bus will be parked on)
+                            // Buses can only fit in space 1-48 --> user must choose space 1-45 (first space bus will be parked on)
                             string spaceNumberString = AnsiConsole.Prompt(new TextPrompt<string>("[#ff00ff]\nEnter parking space to move vehicle to (1-45):[/]")
                                 .AllowEmpty()
                                 .Validate(input =>
@@ -168,14 +165,13 @@ namespace PragueParking.Console
                                     {
                                         return ValidationResult.Error($"[springgreen1]\n\nError! A bus will not fit in space {input} to {input + 3}\n.[/]");
                                     }
-                                    return ValidationResult.Success();     // default case
+                                    return ValidationResult.Success();
                                 })
                                 );
                             spaceNumber = int.Parse(spaceNumberString);
                         }
                         else
                         {
-                            //garage.MoveVehicle(vehicle);
                             // Ask user for space number to move vehicle to
                             string spaceNumberString = AnsiConsole.Prompt(new TextPrompt<string>("[#ff00ff]\nEnter parking space to move vehicle to:[/]")
                                 .AllowEmpty()
@@ -190,7 +186,7 @@ namespace PragueParking.Console
                                     {
                                         return ValidationResult.Error($"[springgreen1]\n\nError! Parking spaces are numbered from 1 to {garage.GarageSize}.[/]");
                                     }
-                                    return ValidationResult.Success();     // default case
+                                    return ValidationResult.Success();
                                 })
                                 );
                             spaceNumber = int.Parse(spaceNumberString);
@@ -256,7 +252,7 @@ namespace PragueParking.Console
                         string cleanUpdateSelect = Markup.Remove(updateSelect).Trim();
                         if (cleanUpdateSelect == "YES")
                         {
-                            // Print long list of parked vehicles - using ParkingGarage override ToString
+                            // Print list of parked vehicles
                             AnsiConsole.Write(new Markup(garage.ToString(), Color.Aquamarine1));
                         }
                         break;
@@ -296,7 +292,7 @@ namespace PragueParking.Console
                             ApplyNewPrices(garage, priceList);
                             MainMenu(garage, priceList, out breaker);
                         }
-                        // No "else" needed. If user selects "Exit to Main Menu" --> break and return to Main Menu
+                        // If user selects "Exit to Main Menu" --> break and return to Main Menu
                         break;
                     }
                 case "Close Prague Parking":
@@ -327,8 +323,7 @@ namespace PragueParking.Console
             {
                 return null;
             }
-            List<string> vehicleOptions = new List<string>      // TODO: Update vehicle options, add bus, bicycle and shopping trolley
-                                                                // Change to alphabetical order??
+            List<string> vehicleOptions = new List<string>      
             {
                 "[#ff00ff]BANANA BOAT[/]",
                 "[#ff00ff]BICYCLE[/]",
@@ -415,7 +410,7 @@ namespace PragueParking.Console
             string regNumber = AnsiConsole.Prompt(
                 new TextPrompt<string>("[#ff00ff]\n\nEnter registration number (hit Enter for Main Menu): [/]")
                 .AllowEmpty()
-                .Validate(input =>                                          // Validation borrowed from Tim Corey
+                .Validate(input =>
                 {
                     input = input.Trim();
                     if (!string.IsNullOrEmpty(input) && input.Length > 10)
@@ -463,7 +458,7 @@ namespace PragueParking.Console
             ParkingGarage garage = new ParkingGarage(parkingData, config.GarageSize, config.AllowedVehicles,
                 config.MCVehicleSize, config.CarVehicleSize, config.BusVehicleSize, config.BicycleVehicleSize, config.ParkingSpaceSize);
 
-            // Add check to see if Garage Size is smaller than amount of parking spaces in loaded data
+            // Check to see if Garage Size is smaller than amount of parking spaces in loaded data
             if (garage.GarageSize < parkingData.Count)
             {
                 garage.RemoveRangeOfSpaces(garage.GarageSize, parkingData.Count);
@@ -471,6 +466,7 @@ namespace PragueParking.Console
             return garage;
 
         }
+        // Method to reconfigure parking garage while program is running
         public static ParkingGarage? ReConfigureParkingGarage(ParkingGarage garage)
         {
             FileManager fileManager = new FileManager();
@@ -582,6 +578,7 @@ namespace PragueParking.Console
 
             return priceList;
         }
+        // Method to update price list while program is running
         public static PriceList? UpdatePriceList(FileManager fileManager, PriceList priceList)
         {
             // Get new prices from user input
@@ -606,6 +603,7 @@ namespace PragueParking.Console
 
             return priceList = ReloadPriceList(fileManager, filePath);
         }
+        // Method to update prices of parked vehicles
         public static void ApplyNewPrices(ParkingGarage garage, PriceList priceList)
         {
             List<string> updateOptions = new List<string>

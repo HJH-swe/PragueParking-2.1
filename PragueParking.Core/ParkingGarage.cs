@@ -50,7 +50,6 @@ namespace PragueParking.Core
 
         // FindFreeSpace method:
         // "Save" first 48 spaces for buses (as only first 50 fit buses, 48 --> 12 buses)
-        // Buses: find a free space from 1 - 48.
         // Other vehicles: first find a free space from 49 - GarageSize.
         // If no free space, then look at space 1-48
         public int FindFreeSpace(IParkable vehicle)
@@ -94,7 +93,6 @@ namespace PragueParking.Core
             }
             else if (vehicle is MC)
             {
-                // Start from 48 to "save" spaces for busses
                 // Optimize parking - first check to fill 1 space with 2 MC
                 for (int i = 48; i < parkingSpaces.Count; i++)
                 {
@@ -150,7 +148,7 @@ namespace PragueParking.Core
                     return i;
                 }
             }
-            // Same, but from first parking space
+            // Same, but from parking space 1
             for (int i = 0; i < parkingSpaces.Count; i++)
             {
                 if (parkingSpaces[i].AvailableSize == vehicle.VehicleSize)
@@ -238,6 +236,7 @@ namespace PragueParking.Core
             }
             catch (Exception e)
             {
+                // Return false if the above fails
                 return false;
             }
         }
@@ -353,7 +352,7 @@ namespace PragueParking.Core
             int spaceCounter = 1, emptyCounter = 0, halfCounter = 0, fullCounter = 0;       // Will use counters for bar chart
             foreach (var space in parkingSpaces)
             {
-                if (space.AvailableSize == space.TotalSize)       // If available == total --> empty
+                if (space.AvailableSize == space.TotalSize)                                 // If available == total --> empty
                 {
                     colorString = "lime";
                     emptyCounter++;
@@ -363,7 +362,7 @@ namespace PragueParking.Core
                     colorString = "yellow";
                     halfCounter++;
                 }
-                else                                                                        // Only reasonable option left --> space occupied 
+                else                                                                        // Only option left --> space occupied 
                 {
                     colorString = "red";
                     fullCounter++;
@@ -390,8 +389,7 @@ namespace PragueParking.Core
             allSpaces.Width(70);
             AnsiConsole.Write(allSpaces);
 
-            // Quick bar chart to show free/partially occupied/full spaces
-
+            // Bar chart to show free/partially occupied/full spaces
             var barChart = new BarChart()
                 //.Width(65)
                 .AddItem("[red]FULL SPACES[/]", fullCounter, Color.Red)
@@ -416,7 +414,6 @@ namespace PragueParking.Core
 
             if (parkingSpaces.Count > 0)
             {
-                //parkingGarage.Append(string.Join("\n", parkingSpaces));
                 foreach (var parkingSpace in parkingSpaces)
                 {
                     if (parkingSpace.ParkedVehicles.Count > 0)

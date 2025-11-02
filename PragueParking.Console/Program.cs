@@ -10,8 +10,6 @@ namespace PragueParking.Console
     {
         private static void Main(string[] args)
         {
-
-
             bool breaker = true;
             do
             {

@@ -10,12 +10,14 @@ using PragueParking.Core.Interfaces;
 
 namespace PragueParking.Data
 {
-    public class FileManager        // TODO: update methods for bus and bicycle
+    public class FileManager
     {
+        // Constructor
         public FileManager()
         {
         }
 
+        // Methods for data management
         public string SaveParkingData<T>(T parkingSpaces, string filePath)
         {
             try
@@ -39,8 +41,7 @@ namespace PragueParking.Data
             }
 
             string jsonString = File.ReadAllText(filePath);
-            List<ParkingSpace>? savedData = JsonSerializer.Deserialize<List<ParkingSpace>>(jsonString);       // Error here - could not deserialize interface type.
-            //return savedData ?? new List<ParkingSpace>();       
+            List<ParkingSpace>? savedData = JsonSerializer.Deserialize<List<ParkingSpace>>(jsonString);       // Could not deserialize interface type. 
             return savedData?.Cast<IParkingSpace>().ToList() ?? new List<IParkingSpace>();      // Copilot helped me with this line, following above error ^
                                                                                                 // Use ParkingSpace for json, and then cast to IParkingSpace
                                                                                                 // if savedData is null, return a new list of IParkingSpace
@@ -117,6 +118,5 @@ namespace PragueParking.Data
                 return priceConfiguration;
             }
         }
-
     }
 }

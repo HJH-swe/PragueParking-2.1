@@ -12,17 +12,6 @@ namespace PragueParking.Core
 
     public class ParkingSpace : IParkingSpace
     {
-        // total size of parking spaces shouldn't be changed - so private readonly
-        // TODO: Now loaded from config file, so remove?
-        private readonly int totalSize = 4;
-
-        // Properties - change setters for encapsulation?
-        public int TotalSize { get; set; }
-        public int SpaceNumber { get; set; }
-        public int AvailableSize { get; set; }
-        public List<Vehicle> ParkedVehicles { get; set; }       // Needed to change this back to <Vehicle> so json can serialize/deserialize properly
-
-        // A special constructor for JSON - found the idea online - ONLY CONSTRUCTOR?
         [JsonConstructor]
         public ParkingSpace(int totalSize, int spaceNumber, List<Vehicle> parkedVehicles)
         {
@@ -32,6 +21,11 @@ namespace PragueParking.Core
             ParkedVehicles = parkedVehicles;
         }
 
+        // Properties 
+        public int TotalSize { get; set; }
+        public int SpaceNumber { get; set; }
+        public int AvailableSize { get; set; }
+        public List<Vehicle> ParkedVehicles { get; set; }       // Needed to change this back to <Vehicle> so json can serialize/deserialize properly
 
         // Methods
         public bool IsEnoughSpace(IParkable vehicle)
@@ -90,7 +84,6 @@ namespace PragueParking.Core
             }
             return null;
         }
-        // TODO: Remove method? Check how many references
         public string PrintParkingSpace(int spaceNumber)
         {
             if (ParkedVehicles.Count == 0)
@@ -102,6 +95,7 @@ namespace PragueParking.Core
                 string vehicles = "";
                 foreach (IParkable vehicle in ParkedVehicles)
                 {
+                    // Write out all spaces buses occupy
                     if (vehicle.VehicleSize == 16)
                     {
                         return $"Spaces {SpaceNumber} - {SpaceNumber + 3}: {vehicle}\tAvailable space: {AvailableSize}";
